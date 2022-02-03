@@ -1,0 +1,165 @@
+#!/bin/bash
+
+#Character Codes
+arrowUp='\[A'
+arrowDown='\[B'
+arrowRight='\[C'
+arrowLeft='\[D'
+#enterKey=''
+
+#Menu Items
+item0="Sort by Pokemon Name"
+item1="Sort by Pokemon Type1"
+item2="Sort by Pokemon Type2"
+item3="Sort by Tallest Pokemon"
+item4="Sort by Shortest Pokemon"
+item5="Sort by Heaviest Pokemon"
+item6="Sort by Lightest Pokemon"
+
+ShowMenu(){
+        clear
+        case $1 in
+        0)
+                menuItem=0
+                echo -e "\e[1;44mSort by Pokemon Name\e[1;40m"
+                echo "Sort by Pokemon Type1"
+                echo "Sort by Pokemon Type2"
+                echo "Sort by Tallest Pokemon"
+                echo "Sort by Shortest Pokemon"
+                echo "Sort by Heaviest Pokemon"
+                echo "Sort by Lightest Pokemon"
+                ;;
+
+
+        1)
+                menuItem=1
+                echo "Sort by Pokemon Name"
+                echo -e "\e[1;44mSort by Pokemon Type1\e[1;40m"
+                echo "Sort by Pokemon Type2"
+                echo "Sort by Tallest Pokemon"
+                echo "Sort by Shortest Pokemon"
+                echo "Sort by Heaviest Pokemon"
+                echo "Sort by Lightest Pokemon"
+                ;;
+
+        2)
+                menuItem=2
+                echo "Sort by Pokemon Name"
+                echo "Sort by Pokemon Type1"
+                echo -e "\e[1;44mSort by Pokemon Type2\e[1;40m"
+                echo "Sort by Tallest Pokemon"
+                echo "Sort by Shortest Pokemon"
+                echo "Sort by Heaviest Pokemon"
+                echo "Sort by Lightest Pokemon"
+
+                ;;
+
+        3)
+                menuItem=3
+                echo "Sort by Pokemon Name"
+                echo "Sort by Pokemon Type1"
+                echo "Sort by Pokemon Type2"
+                echo -e "\e[1;44mSort by Tallest Pokemon\e[1;40m"
+                echo "Sort by Shortest Pokemon"
+                echo "Sort by Heaviest Pokemon"
+                echo "Sort by Lightest Pokemon"
+
+                ;;
+
+        4)
+                menuItem=4
+                echo "Sort by Pokemon Name"
+                echo "Sort by Pokemon Type1"
+                echo "Sort by Pokemon Type2"
+                echo "Sort by Tallest Pokemon"
+                echo -e "\e[1;44mSort by Shortest Pokemon\e[1;40m"
+                echo "Sort by Heaviest Pokemon"
+                echo "Sort by Lightest Pokemon"
+
+                ;;
+
+        5)
+                menuItem=5
+                echo "Sort by Pokemon Name"
+                echo "Sort by Pokemon Type1"
+                echo "Sort by Pokemon Type2"
+                echo "Sort by Tallest Pokemon"
+                echo "Sort by Shortest Pokemon"
+                echo -e "\e[1;44mSort by Heaviest Pokemon\e[1;40m"
+                echo "Sort by Lightest Pokemon"
+
+                ;;
+
+        6)
+                menuItem=6
+                echo "Sort by Pokemon Name"
+                echo "Sort by Pokemon Type1"
+                echo "Sort by Pokemon Type2"
+                echo "Sort by Tallest Pokemon"
+                echo "Sort by Shortest Pokemon"
+                echo "Sort by Heaviest Pokemon"
+                echo -e "\e[1;44mSort by Lightest Pokemon\e[1;40m"
+                ;;
+        *)
+                if [ $1 -gt 6 ]
+                then
+                        ShowMenu 0
+                fi
+
+                if [ $1 -lt 0 ]
+                then
+                        ShowMenu 6
+                fi
+                ;;
+        esac
+
+        SUCCESS=0
+        OTHER=65
+
+        read -n3 key
+
+        #---------------------------
+#       echo -n "$key" | grep "$enterKey"
+#       if [ "$?" -eq $SUCCESS ]
+#       then
+#                echo "Enter Pressed"
+#               exit $SUCCESS
+#       fi
+
+        echo -n "$key" | grep "$arrowUp"
+        if [ "$?" -eq $SUCCESS ]
+        then
+                ShowMenu $((menuItem-1))
+                echo $menuItem
+                ShowMenu $menuItem
+                exit $SUCCESS
+        fi
+
+        echo -n "$key" | grep "$arrowDown"
+        if [ "$?" -eq $SUCCESS ]
+        then
+                ShowMenu $((menuItem+1))
+                #echo $menuItem
+                #ShowMenu $menuItem
+                exit $SUCCESS
+        fi
+
+        echo -n "$key" | grep "$arrowLeft"
+        if [ "$?" -eq $SUCCESS ]
+        then
+                echo "Left Arrow Pressed"
+                exit $SUCCESS
+        fi
+
+        echo -n "$key" | grep "$arrowRight"
+        if [ "$?" -eq $SUCCESS ]
+        then
+                echo "Right Arrow Pressed"
+                exit $SUCCESS
+        fi
+
+
+        exit $OTHER
+        #---------------------------
+}
+ShowMenu 0
