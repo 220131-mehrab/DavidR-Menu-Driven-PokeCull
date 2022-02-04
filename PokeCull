@@ -4,8 +4,6 @@
 arrowUp='\[A'
 arrowDown='\[B'
 arrowRight='\[C'
-arrowLeft='\[D'
-#enterKey=''
 
 #Menu Items
 item0="Sort by Pokemon Name"
@@ -17,34 +15,34 @@ item5="Sort by Heaviest Pokemon"
 item6="Sort by Lightest Pokemon"
 
 ShowMenu(){
-        clear
-        case $1 in
-        0)
-                menuItem=0
-                echo -e "\e[1;44mSort by Pokemon Name\e[1;40m"
-                echo "Sort by Pokemon Type1"
-                echo "Sort by Pokemon Type2"
-                echo "Sort by Tallest Pokemon"
-                echo "Sort by Shortest Pokemon"
-                echo "Sort by Heaviest Pokemon"
-                echo "Sort by Lightest Pokemon"
-                ;;
+	clear
+	case $1 in
+	0)
+		menuItem=0
+		echo -e "\e[1;44m$item0\e[1;40m"
+		echo $item1
+		echo $item2
+	        echo $item3
+		echo $item4
+		echo $item5
+		echo $item6
+		;;
 
 
-        1)
-                menuItem=1
-                echo "Sort by Pokemon Name"
+	1)
+		menuItem=1
+		echo "Sort by Pokemon Name"
                 echo -e "\e[1;44mSort by Pokemon Type1\e[1;40m"
                 echo "Sort by Pokemon Type2"
                 echo "Sort by Tallest Pokemon"
                 echo "Sort by Shortest Pokemon"
                 echo "Sort by Heaviest Pokemon"
                 echo "Sort by Lightest Pokemon"
-                ;;
+		;;
 
-        2)
-                menuItem=2
-                echo "Sort by Pokemon Name"
+	2)
+		menuItem=2
+		echo "Sort by Pokemon Name"
                 echo "Sort by Pokemon Type1"
                 echo -e "\e[1;44mSort by Pokemon Type2\e[1;40m"
                 echo "Sort by Tallest Pokemon"
@@ -52,11 +50,11 @@ ShowMenu(){
                 echo "Sort by Heaviest Pokemon"
                 echo "Sort by Lightest Pokemon"
 
-                ;;
+		;;
 
-        3)
-                menuItem=3
-                echo "Sort by Pokemon Name"
+	3)
+		menuItem=3
+		echo "Sort by Pokemon Name"
                 echo "Sort by Pokemon Type1"
                 echo "Sort by Pokemon Type2"
                 echo -e "\e[1;44mSort by Tallest Pokemon\e[1;40m"
@@ -64,11 +62,11 @@ ShowMenu(){
                 echo "Sort by Heaviest Pokemon"
                 echo "Sort by Lightest Pokemon"
 
-                ;;
+		;;
 
-        4)
-                menuItem=4
-                echo "Sort by Pokemon Name"
+	4)
+		menuItem=4
+		echo "Sort by Pokemon Name"
                 echo "Sort by Pokemon Type1"
                 echo "Sort by Pokemon Type2"
                 echo "Sort by Tallest Pokemon"
@@ -76,11 +74,11 @@ ShowMenu(){
                 echo "Sort by Heaviest Pokemon"
                 echo "Sort by Lightest Pokemon"
 
-                ;;
+		;;
 
-        5)
-                menuItem=5
-                echo "Sort by Pokemon Name"
+	5)
+		menuItem=5
+		echo "Sort by Pokemon Name"
                 echo "Sort by Pokemon Type1"
                 echo "Sort by Pokemon Type2"
                 echo "Sort by Tallest Pokemon"
@@ -88,78 +86,83 @@ ShowMenu(){
                 echo -e "\e[1;44mSort by Heaviest Pokemon\e[1;40m"
                 echo "Sort by Lightest Pokemon"
 
-                ;;
+		;;
 
-        6)
-                menuItem=6
-                echo "Sort by Pokemon Name"
+	6)
+		menuItem=6
+		echo "Sort by Pokemon Name"
                 echo "Sort by Pokemon Type1"
                 echo "Sort by Pokemon Type2"
                 echo "Sort by Tallest Pokemon"
                 echo "Sort by Shortest Pokemon"
                 echo "Sort by Heaviest Pokemon"
                 echo -e "\e[1;44mSort by Lightest Pokemon\e[1;40m"
-                ;;
-        *)
-                if [ $1 -gt 6 ]
-                then
-                        ShowMenu 0
-                fi
+		;;
+	*)
+		if [ $1 -gt 6 ]
+		then
+			menuItem=6
+			ShowMenu 0
+		fi
 
-                if [ $1 -lt 0 ]
-                then
-                        ShowMenu 6
-                fi
-                ;;
-        esac
+		if [ $1 -lt 0 ]
+		then
+			menuItem=0
+			ShowMenu 6
+		fi
+		;;
+	esac
 
-        SUCCESS=0
-        OTHER=65
+	SUCCESS=0
+	OTHER=65
+echo -e "\nMake your selection, and press Right Arrow Key"
+	read -n3 key
 
-        read -n3 key
-
-        #---------------------------
-#       echo -n "$key" | grep "$enterKey"
-#       if [ "$?" -eq $SUCCESS ]
-#       then
-#                echo "Enter Pressed"
-#               exit $SUCCESS
-#       fi
-
-        echo -n "$key" | grep "$arrowUp"
+	#---------------------------
+	echo -n "$key" | grep "$arrowUp"
         if [ "$?" -eq $SUCCESS ]
-        then
-                ShowMenu $((menuItem-1))
-                echo $menuItem
-                ShowMenu $menuItem
-                exit $SUCCESS
-        fi
+	then
+		menuItem=$((menuItem-1))
+		ShowMenu $menuItem
+	fi
 
-        echo -n "$key" | grep "$arrowDown"
-        if [ "$?" -eq $SUCCESS ]
-        then
-                ShowMenu $((menuItem+1))
-                #echo $menuItem
-                #ShowMenu $menuItem
-                exit $SUCCESS
-        fi
+	echo -n "$key" | grep "$arrowDown"
+	if [ "$?" -eq $SUCCESS ]
+	then
+		menuItem=$((menuItem+1))
+		ShowMenu $menuItem
+	fi
 
-        echo -n "$key" | grep "$arrowLeft"
-        if [ "$?" -eq $SUCCESS ]
-        then
-                echo "Left Arrow Pressed"
-                exit $SUCCESS
-        fi
-
-        echo -n "$key" | grep "$arrowRight"
-        if [ "$?" -eq $SUCCESS ]
-        then
-                echo "Right Arrow Pressed"
-                exit $SUCCESS
-        fi
-
-
-        exit $OTHER
-        #---------------------------
+	echo -n "$key" | grep "$arrowRight"
+	if [ "$?" -eq $SUCCESS ]
+	then
+		return 0
+	fi
+	#---------------------------
 }
 ShowMenu 0
+
+echo $menuItem
+case $menuItem in
+	0)
+		cat N_P.csv | cut -d "," -f 3 | SORT
+		;;
+	1)
+		cat N_P.csv | cut -d "," -f 4 | SORT | UNIQ -c
+		;;
+	2)
+		cat N_P.csv | cut -d "," -f 5 | SORT | UNIQ -c
+		;;
+	3)
+		cat N_P.csv | cut -d "," -f 14 | SORT -r
+		;;
+	4)
+		cat N_P.csv | cut -d "," -f 14 | SORT
+		;;
+	5)
+		cat N_P.csv | cut -d "," -f 15 | SORT -r
+		;;
+	6)
+		cat N_P.csv | cut -d "," -f 15 | SORT
+		;;
+esac
