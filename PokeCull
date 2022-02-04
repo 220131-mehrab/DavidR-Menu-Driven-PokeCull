@@ -154,15 +154,16 @@ case $menuItem in
 		cat N_P.csv | cut -d "," -f 5 | SORT | UNIQ -c
 		;;
 	3)
-		cat N_P.csv | cut -d "," -f 14 | SORT -r
+		cat N_P.csv | cut -d "," -f 14 | SORT -r | grep -v "Height"
 		;;
 	4)
-		cat N_P.csv | cut -d "," -f 14 | SORT
+		cat N_P.csv | cut -d "," -f 14 | SORT | grep -v "Height"
 		;;
 	5)
-		cat N_P.csv | cut -d "," -f 15 | SORT -r
+		cat N_P.csv | cut -d "," -f 15 | SORT -r | grep -v "Weight"
 		;;
 	6)
-		cat N_P.csv | cut -d "," -f 15 | SORT
+		cat N_P.csv | cut -d "," -f 15 | SORT | grep -v "Weight"
 		;;
 esac
+
